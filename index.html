@@ -1,0 +1,788 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080806">
+<title>صبا و حامی | یک شروع عاشقانه</title>
+
+<style>
+@font-face {
+  font-family: 'Morabba';
+  src: url('Morabba-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --black: #080806;
+  --panel: #12120e;
+  --yellow: #f4d34f;
+  --gold: #d6a927;
+  --muted: #c4bb93;
+  --line: rgba(244,211,79,.24);
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Morabba', Tahoma, sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--black);
+  color: var(--yellow);
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 50% 40%,
+      rgba(244,211,79,.075), transparent 57%),
+    radial-gradient(ellipse at 10% 90%,
+      rgba(180,130,20,.05), transparent 45%);
+}
+
+#flowers {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.flower {
+  position: absolute;
+  top: -50px;
+  color: var(--yellow);
+  opacity: .72;
+  text-shadow: 0 0 12px rgba(244,211,79,.45);
+  animation: fall linear infinite;
+  user-select: none;
+}
+
+@keyframes fall {
+  0% { transform: translate3d(0,-5vh,0) rotate(0deg); }
+  50% { transform: translate3d(35px,50vh,0) rotate(180deg); }
+  100% { transform: translate3d(-25px,110vh,0) rotate(360deg); }
+}
+
+header {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 25px 15px 10px;
+}
+
+.logo {
+  font-size: 14px;
+  letter-spacing: 3px;
+  color: var(--muted);
+}
+
+.logo span {
+  color: var(--yellow);
+  font-weight: bold;
+}
+
+main {
+  position: relative;
+  z-index: 2;
+  width: min(650px, calc(100% - 28px));
+  margin: 25px auto 55px;
+}
+
+.card {
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: rgba(15,15,11,.91);
+  padding: clamp(22px, 5vw, 42px);
+  box-shadow: 0 15px 65px rgba(0,0,0,.45),
+              0 0 35px rgba(244,211,79,.045);
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+
+.ornament {
+  color: var(--gold);
+  font-size: 25px;
+  margin-bottom: 20px;
+  letter-spacing: 9px;
+}
+
+h1 {
+  font-size: clamp(25px, 6vw, 38px);
+  line-height: 1.8;
+  margin: 0 0 20px;
+  color: var(--yellow);
+}
+
+.message {
+  font-size: clamp(17px, 4vw, 21px);
+  line-height: 2.3;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  min-height: 100px;
+  color: #f5e8a7;
+}
+
+.cursor::after {
+  content: "▋";
+  display: inline-block;
+  margin-right: 4px;
+  animation: blink .8s steps(2,start) infinite;
+  color: var(--yellow);
+}
+
+@keyframes blink {
+  to { visibility: hidden; }
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 26px;
+}
+
+button, select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: 1px solid var(--yellow);
+  padding: 13px 24px;
+  border-radius: 13px;
+  transition: .2s ease;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 0 23px rgba(244,211,79,.18);
+}
+
+button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+.primary {
+  color: #111008;
+  background: var(--yellow);
+  font-weight: bold;
+}
+
+.secondary {
+  background: transparent;
+  color: var(--yellow);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.field {
+  margin-top: 27px;
+  text-align: right;
+}
+
+.field label {
+  display: block;
+  line-height: 2;
+  margin-bottom: 12px;
+  color: #f5e8a7;
+}
+
+.scale-number {
+  display: block;
+  font-size: 55px;
+  font-weight: bold;
+  margin: 10px auto;
+  color: var(--yellow);
+  text-align: center;
+  text-shadow: 0 0 24px rgba(244,211,79,.17);
+}
+
+.range {
+  width: 100%;
+  height: 10px;
+  accent-color: var(--yellow);
+  cursor: pointer;
+  direction: ltr;
+  transform: scaleX(-1);
+}
+
+.scale-labels {
+  display: flex;
+  justify-content: space-between;
+  direction: ltr;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 13px;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 2;
+  margin-top: 12px;
+}
+
+.result {
+  border: 1px solid var(--line);
+  background: rgba(244,211,79,.045);
+  padding: 16px;
+  margin-top: 14px;
+  border-radius: 15px;
+  line-height: 2;
+}
+
+.romantic-text {
+  text-align: justify;
+  font-size: 16px;
+  line-height: 2.5;
+  color: #f5e8a7;
+  white-space: pre-wrap;
+}
+
+.big-yes {
+  font-size: clamp(70px, 18vw, 125px);
+  font-weight: bold;
+  margin: 15px 0;
+  text-shadow: 0 0 45px rgba(244,211,79,.25);
+}
+
+.select-box {
+  width: 100%;
+  background: #0b0b08;
+  color: var(--yellow);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 15px;
+  outline: none;
+}
+
+.select-box:focus {
+  border-color: var(--yellow);
+}
+
+footer {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  color: #82794f;
+  font-size: 12px;
+  padding: 15px 10px 30px;
+}
+
+.shine {
+  animation: shine 2.8s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0%,100% { text-shadow: 0 0 5px #f4d34f33; }
+  50% { text-shadow: 0 0 25px #f4d34f77; }
+}
+
+@media (max-width: 420px) {
+  main { margin-top: 15px; }
+  .card { padding: 23px 18px; }
+  .buttons { flex-direction: column; }
+  .buttons button { width: 100%; }
+}
+</style>
+</head>
+
+<body>
+<div id="flowers" aria-hidden="true"></div>
+
+<header>
+  <div class="logo">A LITTLE STORY OF <span>LOVE</span></div>
+</header>
+
+<main>
+  <section class="card" id="card">
+    <div class="ornament">✦ ❀ ✦</div>
+    <h1 class="shine" id="heading">صبا و حامی</h1>
+    <div class="message cursor" id="message"></div>
+    <div id="controls" class="buttons hidden"></div>
+    <div id="extra"></div>
+  </section>
+</main>
+
+<footer>ساخته‌شده با کمی شیطنت و کلی حس خوب ✦</footer>
+
+<script>
+/* گل‌های زرد متحرک */
+const flowerArea = document.getElementById("flowers");
+const flowerSymbols = ["✿", "❀", "✾", "❁", "✽", "✦"];
+
+for (let i = 0; i < 34; i++) {
+  const f = document.createElement("span");
+  f.className = "flower";
+  f.textContent = flowerSymbols[
+    Math.floor(Math.random() * flowerSymbols.length)
+  ];
+  f.style.left = Math.random() * 100 + "%";
+  f.style.fontSize = (12 + Math.random() * 19) + "px";
+  f.style.animationDuration = (9 + Math.random() * 15) + "s";
+  f.style.animationDelay = (-Math.random() * 22) + "s";
+  flowerArea.appendChild(f);
+}
+
+const message = document.getElementById("message");
+const heading = document.getElementById("heading");
+const controls = document.getElementById("controls");
+const extra = document.getElementById("extra");
+
+let animationId = 0;
+let isBusy = false;
+let sabaScore = 0;
+let hamiScore = 0;
+let selectedDate = "";
+let selectedTime = "";
+
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+function clearControls() {
+  controls.innerHTML = "";
+  controls.classList.add("hidden");
+  extra.innerHTML = "";
+}
+
+/* پاک‌شدن زنده کلمه‌به‌کلمه */
+async function eraseText() {
+  const id = ++animationId;
+  isBusy = true;
+  message.classList.add("cursor");
+
+  const words = message.textContent.trim().split(/\s+/).filter(Boolean);
+
+  for (let i = words.length; i >= 0; i--) {
+    if (id !== animationId) return;
+    message.textContent = words.slice(0, i).join(" ");
+    await wait(38);
+  }
+
+  message.textContent = "";
+  message.classList.remove("cursor");
+  isBusy = false;
+}
+
+/* ظاهرشدن زنده کلمه‌به‌کلمه */
+async function typeText(text, speed = 115) {
+  const id = ++animationId;
+  isBusy = true;
+  message.textContent = "";
+  message.classList.add("cursor");
+
+  const words = text.split(/\s+/).filter(Boolean);
+
+  for (let i = 0; i < words.length; i++) {
+    if (id !== animationId) return;
+    message.textContent += (i ? " " : "") + words[i];
+    await wait(speed);
+  }
+
+  if (id === animationId) {
+    message.classList.remove("cursor");
+    isBusy = false;
+  }
+}
+
+async function transition(text, next = null, speed = 115) {
+  await eraseText();
+  if (next) next();
+  await typeText(text, speed);
+}
+
+async function showButtons(items) {
+  controls.innerHTML = "";
+  controls.classList.remove("hidden");
+
+  items.forEach(item => {
+    const btn = document.createElement("button");
+    btn.textContent = item.text;
+    btn.className = item.primary ? "primary" : "secondary";
+    btn.disabled = true;
+    btn.addEventListener("click", item.action);
+    controls.appendChild(btn);
+  });
+
+  while (isBusy) await wait(50);
+
+  [...controls.querySelectorAll("button")].forEach(btn => {
+    btn.disabled = false;
+  });
+}
+
+const intro =
+"خب خب خب تو که اومدی تو این سایت میدونی اینجا کجاست؟ اینجا قراره صبا و حامی رو باهم اوکی کنیم! آیا آماده‌ای؟";
+
+async function startIntro() {
+  heading.textContent = "صبا و حامی";
+  clearControls();
+  await typeText(intro, 115);
+
+  await showButtons([
+    { text: "آماده‌ام ❤️", primary: true, action: ready },
+    { text: "آماده نیستم", primary: false, action: notReady }
+  ]);
+}
+
+async function notReady() {
+  clearControls();
+  await transition("پس صبر می‌کنیم تا آماده بشی...", null, 140);
+  await wait(1400);
+  await transition(intro, null, 115);
+
+  await showButtons([
+    { text: "آماده‌ام ❤️", primary: true, action: ready },
+    { text: "آماده نیستم", action: notReady }
+  ]);
+}
+
+async function ready() {
+  clearControls();
+  await transition(
+    "اگر صبا هستی به حامی حسی داری؟",
+    null,
+    125
+  );
+  createSlider("saba");
+}
+
+/* درجه احساسات: حرکت به چپ یعنی افزایش عدد */
+function createSlider(person) {
+  const isSaba = person === "saba";
+  const label = isSaba ? "صبا" : "حامی";
+
+  extra.innerHTML = `
+    <div class="field">
+      <label for="feeling">
+        ${label}، میزان احساست رو انتخاب کن:
+      </label>
+      <output class="scale-number" id="score">0</output>
+      <input id="feeling" class="range" type="range"
+        min="0" max="100" value="0" step="1"
+        aria-label="درجه احساسات از صفر تا صد">
+      <div class="scale-labels">
+        <span>100 — خیلی زیاد</span>
+        <span>0 — اصلاً</span>
+      </div>
+      <div class="hint">
+        درجه را به سمت چپ بکش تا عدد بیشتر شود.
+      </div>
+      <div class="buttons">
+        <button class="primary" id="confirmScore">تأیید ❤️</button>
+      </div>
+    </div>
+  `;
+
+  const range = document.getElementById("feeling");
+  const output = document.getElementById("score");
+  const confirm = document.getElementById("confirmScore");
+
+  range.addEventListener("input", () => {
+    output.textContent = range.value;
+  });
+
+  confirm.addEventListener("click", async () => {
+    confirm.disabled = true;
+
+    if (isSaba) sabaScore = Number(range.value);
+    else hamiScore = Number(range.value);
+
+    extra.innerHTML = "";
+    controls.innerHTML = "";
+    controls.classList.add("hidden");
+
+    if (isSaba) {
+      await transition(
+        "اگر حامی هستی به صبا حسی داری؟",
+        null,
+        125
+      );
+      createSlider("hami");
+    } else {
+      await showResults();
+    }
+  });
+}
+
+async function showResults() {
+  await transition(
+    "حالا وقتشه نتیجه رو ببینین! این درجه‌ها رو برای همدیگه اسکرین‌شات بگیرین ❤️",
+    null,
+    100
+  );
+
+  extra.innerHTML = `
+    <div class="result">
+      <div>درجه احساس صبا به حامی</div>
+      <div class="scale-number">${sabaScore}%</div>
+    </div>
+    <div class="result">
+      <div>درجه احساس حامی به صبا</div>
+      <div class="scale-number">${hamiScore}%</div>
+    </div>
+    <div class="hint">
+      می‌تونین از صفحه اسکرین‌شات بگیرین و نتیجه‌ها رو برای هم بفرستین.
+    </div>
+  `;
+
+  await showButtons([
+    {
+      text: "اسکرین‌شات گرفتم؛ ادامه ❤️",
+      primary: true,
+      action: romanticMessage
+    }
+  ]);
+}
+
+const loveLetter =
+"صبا و حامی، شاید هیچ‌کدوم ندونه آینده دقیقاً چه شکلیه، اما بعضی آدما با حضورشون روزهای معمولی رو قشنگ‌تر می‌کنن. عشق فقط گفتن چند کلمه قشنگ نیست؛ یعنی به حرف‌های هم گوش بدین، به احساسات هم احترام بذارین، وقتی ناراحتین باهم حرف بزنین و برای خوشحال کردن هم تلاش کنین. صبا، شاید حامی بتونه با یه لبخند روزت رو بهتر کنه؛ حامی، شاید صبا بتونه با یه پیام ساده حال دلت رو عوض کنه. چیزی که رابطه رو قشنگ می‌کنه، صداقت، اعتماد، توجه و انتخاب دوباره همدیگه‌ست. لازم نیست همه‌چیز از همین امروز کامل باشه؛ کافیه قدم‌به‌قدم همدیگه رو بیشتر بشناسین و به احساس واقعی هم احترام بذارین. شاید این صفحه فقط چند خط کد باشه، اما می‌تونه شروع یه خاطره بامزه و دوست‌داشتنی بشه. اگر هر دوتون واقعاً مایل باشین، چرا به خودتون فرصت ندین یه خاطره قشنگ باهم بسازین؟ ❤️";
+
+async function romanticMessage() {
+  clearControls();
+  await transition(loveLetter, null, 65);
+
+  await showButtons([
+    {
+      text: "اگر خوندی، روی من کلیک کن ❤️",
+      primary: true,
+      action: dateQuestion
+    }
+  ]);
+}
+
+async function dateQuestion() {
+  clearControls();
+  await transition(
+    "حالا یه سؤال مهم... آیا باهم قرار می‌ذارین؟",
+    null,
+    115
+  );
+
+  await showButtons([
+    { text: "آره ❤️", primary: true, action: datePicker },
+    { text: "نه 🙃", primary: false, action: noDate }
+  ]);
+}
+
+async function noDate() {
+  clearControls();
+
+  await transition(
+    "زکی! فکر کردی می‌تونی دور بزنی منو؟",
+    null,
+    110
+  );
+
+  controls.classList.add("hidden");
+  extra.innerHTML = `
+    <div class="big-yes shine">آره!</div>
+    <div class="message" style="min-height:0">
+      زکی! فکر کردی می‌تونی دور بزنی منو؟ 😂
+    </div>
+  `;
+
+  await showButtons([
+    {
+      text: "باشه، بریم سراغ قرار ❤️",
+      primary: true,
+      action: datePicker
+    }
+  ]);
+}
+
+/* تاریخ شمسی */
+function toPersianDate(date) {
+  return new Intl.DateTimeFormat("fa-IR-u-ca-persian", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    weekday: "long"
+  }).format(date);
+}
+
+function dateValue(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+async function datePicker() {
+  clearControls();
+
+  await transition(
+    "خب، پس یه روز قشنگ برای دیدن هم انتخاب کنین! از امروز تا ۴۵ روز آینده فرصت دارین.",
+    null,
+    100
+  );
+
+  const dateSelect = document.createElement("select");
+  dateSelect.className = "select-box";
+  dateSelect.setAttribute("aria-label", "انتخاب تاریخ شمسی");
+
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = "انتخاب روز قرار...";
+  dateSelect.appendChild(placeholder);
+
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+
+  for (let i = 0; i <= 45; i++) {
+    const date = new Date(now);
+    date.setDate(date.getDate() + i);
+
+    const option = document.createElement("option");
+    option.value = dateValue(date);
+    option.textContent =
+      (i === 0 ? "امروز — " : "") + toPersianDate(date);
+    dateSelect.appendChild(option);
+  }
+
+  const timeSelect = document.createElement("select");
+  timeSelect.className = "select-box";
+  timeSelect.setAttribute("aria-label", "انتخاب ساعت قرار");
+
+  const timePlaceholder = document.createElement("option");
+  timePlaceholder.value = "";
+  timePlaceholder.textContent = "انتخاب ساعت...";
+  timeSelect.appendChild(timePlaceholder);
+
+  for (let h = 9; h <= 22; h++) {
+    for (const m of [0, 30]) {
+      if (h === 22 && m === 30) continue;
+
+      const value =
+        String(h).padStart(2, "0") + ":" +
+        String(m).padStart(2, "0");
+
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = value.replace(
+        /\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]
+      );
+      timeSelect.appendChild(option);
+    }
+  }
+
+  extra.innerHTML = `
+    <div class="field"><label>📅 روز قرار (تاریخ شمسی)</label></div>
+    <div class="field"><label>🕰️ ساعت قرار</label></div>
+    <div class="hint">
+      روز و ساعت را با توافق یکدیگر انتخاب کنین.
+    </div>
+  `;
+
+  extra.children[0].appendChild(dateSelect);
+  extra.children[1].appendChild(timeSelect);
+
+  await showButtons([
+    {
+      text: "تأیید قرار ❤️",
+      primary: true,
+      action: async () => {
+        if (!dateSelect.value || !timeSelect.value) {
+          alert("اول روز و ساعت قرار رو انتخاب کنین!");
+          return;
+        }
+
+        selectedDate = dateSelect.value;
+        selectedTime = timeSelect.value;
+
+        clearControls();
+
+        await transition(
+          "قرار شما ثبت شد! ❤️ حالا وقتشه این خبر قشنگ رو به همدیگه برسونین.",
+          null,
+          105
+        );
+
+        const [y, m, d] = selectedDate.split("-").map(Number);
+        const selected = new Date(y, m - 1, d);
+        const formatted = toPersianDate(selected);
+        const persianTime = selectedTime.replace(
+          /\d/g, n => "۰۱۲۳۴۵۶۷۸۹"[n]
+        );
+
+        extra.innerHTML = `
+          <div class="result" id="confirmation">
+            <div class="ornament">✦ ❀ ✦</div>
+            <h2>قرار صبا و حامی ❤️</h2>
+            <p>یه قرار قشنگ برای دو نفر...</p>
+            <p>📅 ${formatted}</p>
+            <p>🕰️ ساعت ${persianTime}</p>
+            <p class="hint">
+              برای قطعی شدن قرار، با هم هماهنگش کنین.
+            </p>
+          </div>
+          <p class="hint">اینو برای حامی | صبا بفرست 💛</p>
+        `;
+
+        await showButtons([
+          {
+            text: "کپی متن برای ارسال به صبا | حامی",
+            primary: true,
+            action: () => {
+              const text =
+                "❤️ قرار صبا و حامی ❤️\n" +
+                "📅 تاریخ: " + formatted + "\n" +
+                "🕰️ ساعت: " + persianTime + "\n" +
+                "یه قرار قشنگ برای دو نفر... ✨";
+
+              if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text)
+                  .then(() => alert(
+                    "متن قرار کپی شد! برای صبا یا حامی بفرست ❤️"
+                  ))
+                  .catch(() => fallbackCopy(text));
+              } else {
+                fallbackCopy(text);
+              }
+            }
+          }
+        ]);
+      }
+    }
+  ]);
+}
+
+function fallbackCopy(text) {
+  const area = document.createElement("textarea");
+  area.value = text;
+  area.style.position = "fixed";
+  area.style.opacity = "0";
+  document.body.appendChild(area);
+  area.select();
+
+  try {
+    document.execCommand("copy");
+    alert("متن قرار کپی شد! برای صبا یا حامی بفرست ❤️");
+  } catch (e) {
+    alert(text);
+  }
+
+  area.remove();
+}
+
+/* شروع سایت */
+startIntro();
+</script>
+</body>
+</html>
